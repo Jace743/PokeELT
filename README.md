@@ -5,7 +5,7 @@ If you'd like to run the client yourself, install the `PokeELT` package from the
 
 `python3 -m pip install -e .`
 
-And try running `ingest_data.py`. As a heads up, it will create a .duckdb database, and it'll be 200-300 MB once the full script runs.
+... and try running `ingest_data.py`. As a heads up, it will create a .duckdb database, and it'll be 200-300 MB once the full script runs (assuming you download only the three resources that are currently targeted in that script).
 
 Future Plans:
 

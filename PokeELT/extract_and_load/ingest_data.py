@@ -27,4 +27,3 @@ if __name__=='__main__':
         start = perf_counter()
         client.get_and_load_resource(resource_name=resource)
         end = perf_counter()
-        print(f"Finished loading raw_{resource} table after {end - start:.4f} seconds.")
