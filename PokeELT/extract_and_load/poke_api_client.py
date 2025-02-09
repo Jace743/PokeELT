@@ -2,6 +2,7 @@ import duckdb
 import os
 import requests
 import yaml
+from tqdm import tqdm
 from utils import current_timestamp_utc
 
 
@@ -17,7 +18,7 @@ class PokeApiClient:
     ):
         if not api_spec_url and not api_spec_local_path:
             raise ValueError(
-                "Must provide either api_spec_url or api_spec_local_path to init PokeApiClient"
+                "Must provide either api_spec_url or api_spec_local_path to initialize PokeApiClient"
             )
         self.open_api_spec: dict = self.get_api_spec(
             url=api_spec_url, file_path=api_spec_local_path
@@ -29,8 +30,8 @@ class PokeApiClient:
         self.max_paginated_list_size: int = max_paginated_list_size
 
     def get_and_load_resource(self, resource_name: str) -> None:
-        """Executes all necessary get requests to extract all records from a resource and loads the raw json into
-        the duckdb database, with some additional metadata (request and load timestamps, record source URL).
+        """Executes all necessary get requests to extract all records for a given resource and loads the raw json data into
+        the duckdb database, along with some additional metadata (request and load timestamps, record source URL).
 
         Args:
             resource_name (str): The name of the resource to be extracted (e.g., 'pokemon').
@@ -57,7 +58,7 @@ class PokeApiClient:
 
             print(f"Created raw_{resource_name} table. Retrieving and loading individual records now...")
 
-            for resource_id in resource_id_list:
+            for resource_id in tqdm(resource_id_list):
                 requested_at_utc = current_timestamp_utc()
                 request_url: str = f"{self.api_url}{resource_name}/{resource_id}/"
                 res: requests.Response = requests.get(url=request_url)
